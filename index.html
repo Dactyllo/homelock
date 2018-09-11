@@ -8,24 +8,58 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/regular.css" integrity="sha384-ZlNfXjxAqKFWCwMwQFGhmMh3i89dWDnaFU2/VZg9CvsMGA7hXHQsPIqS+JIAmgEq" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/fontawesome.css" integrity="sha384-1rquJLNOM3ijoueaaeS5m+McXPJCGdr5HcA03/VHXxcp2kX2sUrQDmFc3jR5i/C7" crossorigin="anonymous">
   <style>
 html, body { width: 100%; height: 100%;}
 .patt-holder{background:#3382c0;-ms-touch-action:none}.patt-wrap{position:relative;cursor:pointer}.patt-wrap li,.patt-wrap ul{list-style:none;margin:0;padding:0}.patt-circ{position:relative;float:left;box-sizing:border-box;-moz-box-sizing:border-box}.patt-circ.hovered{border:3px solid #090}.patt-error .patt-circ.hovered{border:3px solid #BA1B26}.patt-hidden .patt-circ.hovered{border:0}.patt-dots,.patt-lines{border-radius:5px;height:10px;position:absolute}.patt-dots{background:#FFF;width:10px;top:50%;left:50%;margin-top:-5px;margin-left:-5px}.patt-lines{background:rgba(255,255,255,.7);transform-origin:5px 5px;-ms-transform-origin:5px 5px;-webkit-transform-origin:5px 5px}.patt-hidden .patt-lines{display:none}
 
 .mhn-ui-date-time,.text-center{text-align:center}*,:after,:before{box-sizing:border-box}.pull-left{float:left}.pull-right{float:right}.clearfix:after,.clearfix:before{content:'';display:table}.clearfix:after{clear:both;display:block}body{margin:0;color:#fff;background:#eee;font:300 14px/18px Roboto,sans-serif}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}.mhn-ui-wrap{width:100%;height:100%;overflow:hidden;position:relative;margin:0 auto;background:#2c3e50}.mhn-ui-wrap:before{top:0;left:0;right:0;bottom:0;content:'';position:absolute;background:rgba(0,0,0,.4)}.mhn-lock-wrap{z-index:100;position:relative;margin-top:15%}.mhn-lock-wrap .mhn-lock-title{text-align:center;text-shadow:0 1px 1px rgba(0,0,0,.5);height:20px;line-height:20px;font-size:1.2em;margin-bottom:15px}.mhn-lock-wrap .mhn-lock-success{color:#64ff69;text-shadow:none}.mhn-lock-wrap .mhn-lock-failure{color:#f34235}.mhn-lock{margin:auto;background:0 0}.patt-wrap{margin:auto;overflow:hidden}.patt-wrap li{transition:all .4s ease-in-out 0s}.patt-dots,.patt-lines{transition:background .1s ease-in-out 0s}.patt-circ{border:3px solid transparent}.patt-dots{background:rgba(255,255,255,.8)}.patt-lines{background:rgba(255,255,255,.4)}.patt-circ.hovered{border-color:#ddd;background:rgba(255,255,255,.2)}.patt-error .patt-circ.hovered{background:rgba(243,66,53,.4);border-color:rgba(243,66,53,.8)}.patt-error .patt-lines{background:rgba(243,66,53,.5)}.patt-success .patt-circ.hovered{background:rgba(75,174,79,.4);border-color:rgba(75,174,79,.8)}.patt-success .patt-lines{background:rgba(75,174,79,.5)}.mhn-lock-failure{animation:zoomIn .4s}.patt-circ:nth-child(1),.patt-circ:nth-child(2),.patt-circ:nth-child(3),.patt-circ:nth-child(4){animation:fadeInUp .4s}.patt-circ:nth-child(5),.patt-circ:nth-child(6),.patt-circ:nth-child(7),.patt-circ:nth-child(8){animation:fadeInUp .6s}.patt-circ:nth-child(10),.patt-circ:nth-child(11),.patt-circ:nth-child(12),.patt-circ:nth-child(9){animation:fadeInUp .8s}.patt-circ:nth-child(13),.patt-circ:nth-child(14),.patt-circ:nth-child(15),.patt-circ:nth-child(16){animation:fadeInUp 1s}.mhn-lock-title,.patt-circ:nth-child(17),.patt-circ:nth-child(18),.patt-circ:nth-child(19),.patt-circ:nth-child(20){animation:fadeInUp 1.2s}
+
+.invis .patt-circ.hovered,
+.invis .patt-lines {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: transparent !important;
+}
+
+
+#toggle {
+    position: fixed;
+    color: #d0d2d5;
+    font-size: 30px;
+    top: 5px;
+    right: 10px;
+    z-index: 999;
+    padding: 10px;
+    cursor: pointer;
+}
   </style>
 </head>
 <body>
+    <span id="toggle"><i class="far fa-eye"></i></span>
     <div class="mhn-ui-wrap">
         <div class="mhn-lock-wrap">
             <div class="mhn-lock-title" data-title="Desenhe o padrão"></div>
-            <div class="mhn-lock"></div>
+            <div id="lock" class="mhn-lock"></div>
         </div>
     </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script>
     $(function(){
         mhnUI.setup();
+
+        $("#toggle").on("click", function() {
+            var icon = $(this).find("i");
+            var lock = $("#lock");
+            if(icon.hasClass("fa-eye")) {
+                icon.removeClass("fa-eye").addClass("fa-eye-slash");
+                lock.addClass("invis");
+            } else {
+                icon.removeClass("fa-eye-slash").addClass("fa-eye");
+                lock.removeClass("invis");
+            }
+        });
     });
     var sucesso  = function() {
         $(".mhn-lock-title").html('<span class="mhn-lock-success">Porta destrancada</span>');
