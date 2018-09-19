@@ -61,7 +61,7 @@ const char* html = "<!doctype html>\n\
     }\n\
     var falha = function(res) {\n\
         var texto = \"Padrão errado...\";\n\
-        if(res == '-1') texto = \"Bloqueado por 30 min...\";\n\
+        if(res == '-1') texto = \"Sistema bloqueado...\";\n\
         $(\".mhn-lock-title\").html('<span class=\"mhn-lock-failure\">'+texto+'</span>');\n\
         $(\".patt-holder\").removeClass(\"patt-success\").addClass(\"patt-error\");\n\
         setTimeout(function() {\n\
