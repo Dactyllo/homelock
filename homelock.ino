@@ -3,8 +3,8 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
  
-const char* ssid = "NOITEBRANCA";
-const char* password = "Foi a noite em que nos conhecemos...";
+const char* ssid = "******";
+const char* password = "*******";
 IPAddress ip(192, 168, 1, 69); // IP do aparelho
 IPAddress gateway(192, 168, 1, 254); // IP do router
 IPAddress subnet(255, 255, 255, 0);
@@ -146,7 +146,7 @@ void setup() {
       server.send(500, "text/plain", "-1");
     } else {
       String code=server.arg("code");
-      if(code == "171395123811101520") {
+      if(code == "*****") {
         tentativas = 0;
         //digitalWrite(router, HIGH);
         digitalWrite(BInLED, 0);
